@@ -1,0 +1,219 @@
+body {
+    background-color: #dddfd4;
+}
+
+@font-face {
+    font-family: Pelagiad;
+    src: url('misc/Pelagiad.ttf');
+}
+
+main {
+    width: 60em;
+    margin: 0 auto;
+
+    /*border: 1px dotted black;*/
+}
+
+/*#imageDiv,
+#progressDiv,
+#answerDiv {
+    border: 1px dotted blue;
+}*/
+
+#window {
+    width: 50em;
+    margin: 10em auto;
+
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    /*border: 1px solid red;*/
+    text-align: center;
+    line-height: 2;
+
+    -moz-border-radius: .5em;
+    -webkit-border-radius: .5em;
+    border-radius: .5em;
+
+    background-color: #f7f8f9;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+
+#progressDiv,
+#buttonsDiv {
+    width: 100%;
+    height: 4em;
+    background-color: #5a5c51;
+    display: flex;
+
+}
+
+#progressDiv {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    -moz-border-radius: .25em .25em 0 0;
+    -webkit-border-radius: .25em .25em 0 0;
+    border-radius: .25em .25em 0 0;
+    margin-bottom: 3em;
+}
+
+#buttonsDiv {
+    margin-top: 3em;
+    height: 4em;
+
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+
+    -moz-border-radius: 0 0 .25em .25em;
+    -webkit-border-radius: 0 0 .25em .25em;
+    border-radius: 0 0 .25em .25em;
+}
+
+
+
+#buttonsDiv a {
+    display: inline-block;
+    /*border: 1px dotted green;*/
+    margin-right: 1em;
+
+    font-family: Pelagiad, Georgia, serif;
+    font-size: 1.65em;
+    text-align: center;
+
+    color: #dddfd4;
+    text-decoration: none;
+}
+
+
+#answerDiv {
+    margin-right: 2em;
+
+    /*flex-grow: 1;*/
+    flex-basis: 32em;
+}
+
+#imageDiv {
+    margin-right: 4em;
+    margin-left: 2em;
+    /*width: 2em;*/
+
+    /*flex-grow: 1;*/
+    flex-basis: 10em;
+
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+
+    -moz-border-radius: .25em;
+    -webkit-border-radius: .25em;
+    border-radius: .25em;
+}
+
+
+.letter {
+    font-family: Pelagiad, Georgia, serif;
+    font-size: 1.6em;
+}
+
+.inputLetter {
+    border: none;
+    border-bottom: 2px solid #c4c4c4;
+
+    font-family: Arial Black, sans-serif;
+    font-size: 1.25em;
+
+    background-color: #f7f8f9
+}
+
+.inputLetter:focus {
+    background-color: #e7e7e7;
+    border-bottom: 2px solid #464646;
+}
+
+.inputLetter, .letter {
+    text-transform: capitalize;
+    display: inline-block;
+    width: 1.3em;
+    margin-right: 0.1em;
+
+    text-align: center;
+}
+
+
+#firstLine::first-letter {
+   text-transform: capitalize;
+}
+
+#firstLine {
+    display: block;
+    margin-bottom: 1em;
+
+    font-family: Pelagiad, Georgia, serif;
+    font-size: 2em;
+}
+
+
+#messageCorrect, #messageIncorrect, #messageNull {
+    display: block;
+    margin-right:auto;
+    margin-left: 1em;
+
+    font-family: Pelagiad, Georgia, serif;
+    font-size: 1.75em;
+
+    color: #dddfd4;
+}
+
+#messageNull {
+    height: 2em;
+}
+
+#finalScore {
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+#assessmentScore {
+    font-family: Pelagiad, Georgia, serif;
+    font-size: 2em;
+}
+
+#progressBar {
+    width: 25em;
+    height: 0.5em;
+
+    position: relative;
+
+    background: #dddfd4;
+    -moz-border-radius: .5em;
+    -webkit-border-radius: .5em;
+    border-radius: .5em;
+    padding: .5em;
+    box-shadow: inset 0 -1px 1px rgba(255,255,255,0.3);
+}
+
+#progressBar > span {
+    display: block;
+    height: 100%;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    background-color: ThreeDDarkShadow;
+    background-image: linear-gradient(
+        center bottom,
+        rgb(43,194,83) 37%,
+        rgb(84,240,84) 69%
+    );
+    box-shadow:
+        inset 0 2px 9px  rgba(255,255,255,0.3),
+        inset 0 -2px 6px rgba(0,0,0,0.4);
+    position: relative;
+    overflow: hidden;
+}
