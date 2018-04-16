@@ -7,7 +7,7 @@ var ImageDivStyles = {
 
 function Application() {
   return (
-    <div id="Window">
+    <div id="window">
       <div id="progressDiv">
         <div id="progressBar">
           <span></span>
