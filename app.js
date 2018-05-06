@@ -2,18 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
-var ImageDivStyles = {
-  display: "inline-block",
-  backgroundImage: "url('img/placeholder.png')" }; // to get rid of this variable later
-
-const wordlist = ["apple", "horse", "spoon"];
-
 class Header extends React.Component {
   render()  {
+    let progress = this.props.currentWindow * 10;
+
     return (
       <div id="progressDiv">
         <div id="progressBar">
-          <span></span>
+          <span style={{width: progress + "%"}}></span>
         </div>
       </div>
     );
@@ -21,7 +17,6 @@ class Header extends React.Component {
 };
 
 class Image extends React.Component {
-
   render() {
     let path = "url('img/" + this.props.currentWindow + ".png')";
 
@@ -53,7 +48,7 @@ class Word extends React.Component {
           } else if (i === arrayLength-1) {
             return <label className="letter" key={i}>{currentWordArray[i]}</label>   // you can shorten this
           } else {
-            return <input className="inputLetter" key={i} />
+            return <input className="inputLetter" maxlength={1} key={i} />
           }
         })}
       </div>
@@ -71,20 +66,31 @@ class Footer extends React.Component {
       <div id="buttonsDiv">
         <label id="messageCorrect">Correct!</label>
         <a id="checkAnswerButton" onClick={this.checkAnswer}>Check answer</a>
-        <a id="skipQuestionButton">Skip question</a>
+        <a id="skipQuestionButton" onClick={this.props.skipWord}>Skip question</a>
       </div>
     );
   }
 };
 
 class Window extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+        answerStatus : "unanswered"
+        // possible states: unanswered, correct, incorrect
+    };
+  }
+
   render() {
     return (
       <div id="window">
-        <Header />
+        <Header currentWindow={this.props.currentWindow}
+                answerStatus={this.state.answerStatus} />
         <Image currentWindow={this.props.currentWindow}/>
         <Word word={this.props.words[this.props.currentWindow]} />
-        <Footer />
+        <Footer answerStatus={this.state.answerStatus}
+                currentWindow={this.state.currentWindow}
+                skipWord={this.props.skipWord} />
       </div>
     );
   }
@@ -111,31 +117,31 @@ class Application extends React.Component {
           },
           {
             index: 2,
-            english: "",
-            german: "",
-            french: "",
-            romanian: ""
+            english: "mushroom",
+            german: "pilz",
+            french: "champignon",
+            romanian: "ciupearcă"
           },
           {
             index: 3,
-            english: "",
-            german: "",
-            french: "",
-            romanian: ""
+            english: "book",
+            german: "buch",
+            french: "livre",
+            romanian: "carte"
           },
           {
             index: 4,
-            english: "",
-            german: "",
-            french: "",
-            romanian: ""
+            english: "bird",
+            german: "vogel",
+            french: "oiseau",
+            romanian: "pasăre"
           },
           {
             index: 5,
-            english: "",
-            german: "",
-            french: "",
-            romanian: ""
+            english: "flower",
+            german: "blume",
+            french: "fleur",
+            romanian: "floare"
           }
         ],
         score: 0,
@@ -144,9 +150,20 @@ class Application extends React.Component {
     };
   }
 
+  skipWord() {
+    if (this.state.currentWindow < this.state.maxCounter) {
+      console.log("Skipping!");
+      let temp = this.state.currentWindow + 1;  // maybe use something more elegant here?
+      this.setState( { currentWindow: temp });
+    }
+  }
+
   render() {
     return (
-      <Window score={this.state.score} currentWindow={this.state.currentWindow} words={this.state.wordlist} />
+      <Window score={this.state.score}
+              currentWindow={this.state.currentWindow}
+              words={this.state.wordlist}
+              skipWord={this.skipWord.bind(this)} />
     );
   }
 
