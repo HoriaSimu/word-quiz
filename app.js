@@ -2,6 +2,22 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
+function checkWords(a,b) {
+  console.log(a);
+  console.log(b);
+
+  if (a.length !== b.length) {
+    return false;
+  }
+
+  for (let i=0; i < a.length; i++) {
+    if (a[i].toUpperCase() !== b[i].toUpperCase()) {
+      return false;
+    }
+  }
+  return true;
+}
+
 class Header extends React.Component {
   render()  {
     let progress = this.props.currentWindow * 10;
@@ -57,15 +73,34 @@ class Word extends React.Component {
 };
 
 class Footer extends React.Component {
-  checkAnswer(e) {
-    console.log("Answer has been checked", e);
+  checkAnswer() {
+    let inputLetters = document.querySelectorAll('.inputLetter');
+    let firstLastLetters = document.querySelectorAll('.letter');
+    let currentAnswer = firstLastLetters[0].textContent;
+
+    for (let i=0; i<= inputLetters.length-1; i++) {
+      currentAnswer = currentAnswer + inputLetters[i].value;
+    }
+
+    currentAnswer = currentAnswer + firstLastLetters[1].textContent;
+
+    if (checkWords(currentAnswer,this.props.word.english)) {
+      console.log("correct!");
+
+    } else {
+      console.log("incorrect!");
+
+      for (let i=0; i<= inputLetters.length-1; i++) {
+        inputLetters[i].value = '';
+      }
+    }
   }
 
   render() {
     return (
       <div id="buttonsDiv">
         <label id="messageCorrect">Correct!</label>
-        <a id="checkAnswerButton" onClick={this.checkAnswer}>Check answer</a>
+        <a id="checkAnswerButton" onClick={this.checkAnswer.bind(this)}>Check answer</a>
         <a id="skipQuestionButton" onClick={this.props.skipWord}>Skip question</a>
       </div>
     );
@@ -89,6 +124,7 @@ class Window extends React.Component {
         <Image currentWindow={this.props.currentWindow}/>
         <Word word={this.props.words[this.props.currentWindow]} />
         <Footer answerStatus={this.state.answerStatus}
+                word={this.props.words[this.props.currentWindow]}
                 currentWindow={this.state.currentWindow}
                 skipWord={this.props.skipWord} />
       </div>
@@ -151,10 +187,16 @@ class Application extends React.Component {
   }
 
   skipWord() {
+    let inputLetters = document.querySelectorAll('.inputLetter');
+
     if (this.state.currentWindow < this.state.maxCounter) {
       console.log("Skipping!");
       let temp = this.state.currentWindow + 1;  // maybe use something more elegant here?
       this.setState( { currentWindow: temp });
+    }
+
+    for (let i=0; i<= inputLetters.length-1; i++) {
+      inputLetters[i].value = '';
     }
   }
 

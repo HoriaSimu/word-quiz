@@ -94,6 +94,7 @@ main {
 
 #answerDiv {
     margin-right: 2em;
+    height: 7em;
 
     /*flex-grow: 1;*/
     flex-basis: 32em;
