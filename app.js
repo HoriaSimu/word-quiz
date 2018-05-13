@@ -85,11 +85,9 @@ class Footer extends React.Component {
     currentAnswer = currentAnswer + firstLastLetters[1].textContent;
 
     if (checkWords(currentAnswer,this.props.word.english)) {
-      console.log("correct!");
-
+      this.props.updateAnswerStatus("correct", true);
     } else {
-      console.log("incorrect!");
-
+      this.props.updateAnswerStatus("incorrect", false);
       for (let i=0; i<= inputLetters.length-1; i++) {
         inputLetters[i].value = '';
       }
@@ -99,9 +97,13 @@ class Footer extends React.Component {
   render() {
     return (
       <div id="buttonsDiv">
-        <label id="messageCorrect">Correct!</label>
-        <a id="checkAnswerButton" onClick={this.checkAnswer.bind(this)}>Check answer</a>
-        <a id="skipQuestionButton" onClick={this.props.skipWord}>Skip question</a>
+        {this.props.answerStatus === "correct" && <label id="messageCorrect">Correct!</label>}
+        {this.props.answerStatus === "incorrect" && <label id="messageIncorrect">Wrong!</label>}
+        {this.props.answerStatus !== "correct" && <a id="checkAnswerButton" onClick={this.checkAnswer.bind(this)}>Check answer</a>}
+        <a id="skipQuestionButton" onClick={this.props.skipWord}>
+          {this.props.answerStatus !== "correct" && "Skip word"}
+          {this.props.answerStatus === "correct" && "Next word"}
+        </a>
       </div>
     );
   }
@@ -111,8 +113,7 @@ class Window extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        answerStatus : "unanswered"
-        // possible states: unanswered, correct, incorrect
+
     };
   }
 
@@ -123,10 +124,11 @@ class Window extends React.Component {
                 answerStatus={this.state.answerStatus} />
         <Image currentWindow={this.props.currentWindow}/>
         <Word word={this.props.words[this.props.currentWindow]} />
-        <Footer answerStatus={this.state.answerStatus}
+        <Footer answerStatus={this.props.answerStatus}
                 word={this.props.words[this.props.currentWindow]}
                 currentWindow={this.state.currentWindow}
-                skipWord={this.props.skipWord} />
+                skipWord={this.props.skipWord}
+                updateAnswerStatus={this.props.updateAnswerStatus}/>
       </div>
     );
   }
@@ -182,8 +184,18 @@ class Application extends React.Component {
         ],
         score: 0,
         currentWindow: 1,
-        maxCounter: 5
+        maxCounter: 5,
+        answerStatus: "unanswered" // possible states: unanswered, correct, incorrect
     };
+  }
+
+  updateAnswerStatus(status, correct) {
+    this.setState( { answerStatus: status } );
+
+    if (correct) {
+      let temp = this.state.score + 1; // maybe use something more elegant here?
+      this.setState( { score: temp } );
+    }
   }
 
   skipWord() {
@@ -198,6 +210,8 @@ class Application extends React.Component {
     for (let i=0; i<= inputLetters.length-1; i++) {
       inputLetters[i].value = '';
     }
+
+    this.updateAnswerStatus("unanswered", false);
   }
 
   render() {
@@ -205,7 +219,10 @@ class Application extends React.Component {
       <Window score={this.state.score}
               currentWindow={this.state.currentWindow}
               words={this.state.wordlist}
-              skipWord={this.skipWord.bind(this)} />
+              skipWord={this.skipWord.bind(this)}
+              answerStatus={this.state.answerStatus}
+              updateAnswerStatus={this.updateAnswerStatus.bind(this)}
+              />
     );
   }
 
