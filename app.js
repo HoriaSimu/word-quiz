@@ -53,7 +53,7 @@ class Word extends React.Component {
   }
 
   render() {
-    let currentWordArray = this.props.word.english.split("");
+    let currentWordArray = this.props.word.split("");
     let arrayLength = currentWordArray.length;
 
     return (
@@ -84,7 +84,7 @@ class Footer extends React.Component {
 
     currentAnswer = currentAnswer + firstLastLetters[1].textContent;
 
-    if (checkWords(currentAnswer,this.props.word.english)) {
+    if (checkWords(currentAnswer,this.props.word)) {
       this.props.updateAnswerStatus("correct", true);
     } else {
       this.props.updateAnswerStatus("incorrect", false);
@@ -121,14 +121,14 @@ class Window extends React.Component {
     return (
       <div id="window">
         <Header currentWindow={this.props.currentWindow}
-                answerStatus={this.state.answerStatus} />
+                answerStatus={this.props.answerStatus} />
         <Image currentWindow={this.props.currentWindow}/>
-        <Word word={this.props.words[this.props.currentWindow]} />
+        <Word word={this.props.words[this.props.currentWindow][this.props.currentLanguage]} />
         <Footer answerStatus={this.props.answerStatus}
-                word={this.props.words[this.props.currentWindow]}
-                currentWindow={this.state.currentWindow}
+                word={this.props.words[this.props.currentWindow][this.props.currentLanguage]}
+                currentWindow={this.props.currentWindow}
                 skipWord={this.props.skipWord}
-                updateAnswerStatus={this.props.updateAnswerStatus}/>
+                updateAnswerStatus={this.props.updateAnswerStatus} />
       </div>
     );
   }
@@ -184,6 +184,7 @@ class Application extends React.Component {
         ],
         score: 0,
         currentWindow: 1,
+        currentLanguage: "french",
         maxCounter: 5,
         answerStatus: "unanswered" // possible states: unanswered, correct, incorrect
     };
@@ -218,11 +219,11 @@ class Application extends React.Component {
     return (
       <Window score={this.state.score}
               currentWindow={this.state.currentWindow}
+              currentLanguage={this.state.currentLanguage}
               words={this.state.wordlist}
               skipWord={this.skipWord.bind(this)}
               answerStatus={this.state.answerStatus}
-              updateAnswerStatus={this.updateAnswerStatus.bind(this)}
-              />
+              updateAnswerStatus={this.updateAnswerStatus.bind(this)} />
     );
   }
 
