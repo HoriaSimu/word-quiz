@@ -122,13 +122,45 @@ class Window extends React.Component {
       <div id="window">
         <Header currentWindow={this.props.currentWindow}
                 answerStatus={this.props.answerStatus} />
-        <Image currentWindow={this.props.currentWindow}/>
-        <Word word={this.props.words[this.props.currentWindow][this.props.currentLanguage]} />
-        <Footer answerStatus={this.props.answerStatus}
-                word={this.props.words[this.props.currentWindow][this.props.currentLanguage]}
-                currentWindow={this.props.currentWindow}
-                skipWord={this.props.skipWord}
-                updateAnswerStatus={this.props.updateAnswerStatus} />
+        {this.props.currentWindow !== "start" &&
+         this.props.currentWindow !== "end" &&
+            <Image currentWindow={this.props.currentWindow} />}
+        {this.props.currentWindow !== "start" &&
+         this.props.currentWindow !== "end" &&
+            <Word word={this.props.words[this.props.currentWindow][this.props.currentLanguage]} />}
+        {this.props.currentWindow !== "start" &&
+         this.props.currentWindow !== "end" &&
+            <Footer answerStatus={this.props.answerStatus}
+                    word={this.props.words[this.props.currentWindow][this.props.currentLanguage]}
+                    currentWindow={this.props.currentWindow}
+                    skipWord={this.props.skipWord}
+                    updateAnswerStatus={this.props.updateAnswerStatus} />}
+        {this.props.currentWindow === "start" &&
+            <div>
+              <form>
+                <label>{"Welcome to the word quiz. Before we start, please select your options below."}</label>
+                <div>
+                  <label>{"The language you want to test:"}</label>
+                  <input type="radio" name="language" value="english"></input>
+                  <input type="radio" name="language" value="german"></input>
+                  <input type="radio" name="language" value="french"></input>
+                </div>
+                <div>
+                  <label>{"How many words you want to test:"}</label>
+                  <select name="wordsNumber" >
+                    <option value="5" >{"5"}</option>
+                    <option value="10">{"10"}</option>
+                    <option value="15">{"15"}</option>
+                    <option value="20">{"20"}</option>
+                  </select>
+                </div>
+              </form>
+
+              <div id="buttonsDiv">
+                <a id="skipQuestionButton" onClick={this.props.skipWord}>{"Start"}</a>
+              </div>
+            </div>
+        }
       </div>
     );
   }
@@ -183,7 +215,7 @@ class Application extends React.Component {
           }
         ],
         score: 0,
-        currentWindow: 1,
+        currentWindow: "start",
         currentLanguage: "french",
         maxCounter: 5,
         answerStatus: "unanswered" // possible states: unanswered, correct, incorrect
