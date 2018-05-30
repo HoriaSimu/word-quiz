@@ -109,6 +109,53 @@ class Footer extends React.Component {
   }
 };
 
+class StartScreen extends React.Component {
+  submitSettings() {
+    let radios = document.getElementsByName("language");
+    let dropDown = document.getElementsByName("wordsNumber");
+    let selectedNumber = dropDown[0].value;
+    let selectedLanguage = "english";
+
+    for (var i = 0, length = radios.length; i < length; i++) {
+      if (radios[i].checked) {
+          selectedLanguage = radios[i].value;
+          break;
+      }
+    }
+
+    this.props.updateSettings(selectedLanguage, selectedNumber);
+  }
+
+  render() { // to set default value for the radio buttons
+    return (
+      <div id="startScreen">
+        <form>
+          <label>{"Welcome to the word quiz. Before we start, please select your options below."}</label>
+          <div>
+            <label>{"The language you want to test:"}</label>
+            <label><input type="radio" name="language" value="english" />English</label>
+            <label><input type="radio" name="language" value="german" />German</label>
+            <label><input type="radio" name="language" value="french" />French</label>
+          </div>
+          <div>
+            <label>{"How many words you want to test:"}</label>
+            <select name="wordsNumber" >
+              <option value="5" >{"5"}</option>
+              <option value="10">{"10"}</option>
+              <option value="15">{"15"}</option>
+              <option value="20">{"20"}</option>
+            </select>
+          </div>
+        </form>
+
+        <div id="buttonsDiv">
+          <a id="skipQuestionButton" onClick={this.submitSettings.bind(this)}>{"Start"}</a>
+        </div>
+      </div>
+    );
+  }
+}
+
 class Window extends React.Component {
   constructor(props) {
     super(props);
@@ -136,31 +183,7 @@ class Window extends React.Component {
                     skipWord={this.props.skipWord}
                     updateAnswerStatus={this.props.updateAnswerStatus} />}
         {this.props.currentWindow === "start" &&
-            <div>
-              <form>
-                <label>{"Welcome to the word quiz. Before we start, please select your options below."}</label>
-                <div>
-                  <label>{"The language you want to test:"}</label>
-                  <input type="radio" name="language" value="english"></input>
-                  <input type="radio" name="language" value="german"></input>
-                  <input type="radio" name="language" value="french"></input>
-                </div>
-                <div>
-                  <label>{"How many words you want to test:"}</label>
-                  <select name="wordsNumber" >
-                    <option value="5" >{"5"}</option>
-                    <option value="10">{"10"}</option>
-                    <option value="15">{"15"}</option>
-                    <option value="20">{"20"}</option>
-                  </select>
-                </div>
-              </form>
-
-              <div id="buttonsDiv">
-                <a id="skipQuestionButton" onClick={this.props.skipWord}>{"Start"}</a>
-              </div>
-            </div>
-        }
+            <StartScreen updateSettings={this.props.updateSettings} />}
       </div>
     );
   }
@@ -231,6 +254,12 @@ class Application extends React.Component {
     }
   }
 
+  updateSettings(language, wordsNumber) {
+    this.setState( { maxCounter: wordsNumber,
+                     currentLanguage: language,
+                     currentWindow: 0} );
+  }
+
   skipWord() {
     let inputLetters = document.querySelectorAll('.inputLetter');
 
@@ -255,6 +284,7 @@ class Application extends React.Component {
               words={this.state.wordlist}
               skipWord={this.skipWord.bind(this)}
               answerStatus={this.state.answerStatus}
+              updateSettings={this.updateSettings.bind(this)}
               updateAnswerStatus={this.updateAnswerStatus.bind(this)} />
     );
   }

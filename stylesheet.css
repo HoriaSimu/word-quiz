@@ -117,6 +117,9 @@ main {
     border-radius: .25em;
 }
 
+#startScreen {
+  width: 100%;
+}
 
 .letter {
     font-family: Pelagiad, Georgia, serif;
