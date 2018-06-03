@@ -20,13 +20,16 @@ function checkWords(a,b) {
 
 class Header extends React.Component {
   render()  {
-    let progress = this.props.currentWindow * 10;
+    let progress = (this.props.currentWindow / this.props.maxCounter) * 100;
 
     return (
       <div id="progressDiv">
-        <div id="progressBar">
-          <span style={{width: progress + "%"}}></span>
-        </div>
+        {this.props.currentWindow !== "start" &&
+         this.props.currentWindow !== "end" &&
+            <div id="progressBar">
+              <span style={{width: progress + "%"}}></span>
+            </div>
+        }
       </div>
     );
   }
@@ -34,7 +37,7 @@ class Header extends React.Component {
 
 class Image extends React.Component {
   render() {
-    let path = "url('img/" + this.props.currentWindow + ".png')";
+    let path = "url('img/" + this.props.imageID + ".png')";
 
     return (
       <div id="imageDiv" style={{display: "inline-block",
@@ -102,7 +105,8 @@ class Footer extends React.Component {
         {this.props.answerStatus !== "correct" && <a id="checkAnswerButton" onClick={this.checkAnswer.bind(this)}>Check answer</a>}
         <a id="skipQuestionButton" onClick={this.props.skipWord}>
           {this.props.answerStatus !== "correct" && "Skip word"}
-          {this.props.answerStatus === "correct" && "Next word"}
+          {this.props.answerStatus === "correct" && this.props.currentWindow !== this.props.maxCounter && "Next word"}
+          {this.props.answerStatus === "correct" && this.props.currentWindow === this.props.maxCounter && "See results"}
         </a>
       </div>
     );
@@ -123,10 +127,10 @@ class StartScreen extends React.Component {
       }
     }
 
-    this.props.updateSettings(selectedLanguage, selectedNumber);
+    this.props.updateSettings(selectedLanguage, selectedNumber, 0);
   }
 
-  render() { // to set default value for the radio buttons
+  render() {
     return (
       <div id="startScreen">
         <form>
@@ -143,13 +147,29 @@ class StartScreen extends React.Component {
               <option value="5" >{"5"}</option>
               <option value="10">{"10"}</option>
               <option value="15">{"15"}</option>
-              <option value="20">{"20"}</option>
             </select>
           </div>
         </form>
 
         <div id="buttonsDiv">
-          <a id="skipQuestionButton" onClick={this.submitSettings.bind(this)}>{"Start"}</a>
+          <a onClick={this.submitSettings.bind(this)}>{"Start"}</a>
+        </div>
+      </div>
+    );
+  }
+}
+
+class EndScreen extends React.Component {
+  restart() {
+    this.props.updateSettings("english", 5, "start");
+  }
+
+  render() {
+    return (
+      <div id="endScreen">
+        <p>Congratulations, your score is {this.props.score}.</p>
+        <div id="buttonsDiv">
+          <a onClick={this.restart.bind(this)}>{"Restart quiz"}</a>
         </div>
       </div>
     );
@@ -168,10 +188,11 @@ class Window extends React.Component {
     return (
       <div id="window">
         <Header currentWindow={this.props.currentWindow}
+                maxCounter={this.props.maxCounter}
                 answerStatus={this.props.answerStatus} />
         {this.props.currentWindow !== "start" &&
          this.props.currentWindow !== "end" &&
-            <Image currentWindow={this.props.currentWindow} />}
+            <Image imageID={this.props.words[this.props.currentWindow].index} />}
         {this.props.currentWindow !== "start" &&
          this.props.currentWindow !== "end" &&
             <Word word={this.props.words[this.props.currentWindow][this.props.currentLanguage]} />}
@@ -184,6 +205,11 @@ class Window extends React.Component {
                     updateAnswerStatus={this.props.updateAnswerStatus} />}
         {this.props.currentWindow === "start" &&
             <StartScreen updateSettings={this.props.updateSettings} />}
+        {this.props.currentWindow === "end" &&
+            <EndScreen score={this.props.score}
+                       currentLanguage={this.props.currentLanguage}
+                       maxCounter={this.props.maxCounter}
+                       updateSettings={this.props.updateSettings} />}
       </div>
     );
   }
@@ -235,12 +261,75 @@ class Application extends React.Component {
             german: "blume",
             french: "fleur",
             romanian: "floare"
+          },
+          {
+            index: 6,
+            english: "heart",
+            german: "herz",
+            french: "coeur",
+            romanian: "inimă"
+          },
+          {
+            index: 7,
+            english: "bread",
+            german: "brot",
+            french: "pain",
+            romanian: "pâine"
+          },
+          {
+            index: 8,
+            english: "fork",
+            german: "gabel",
+            french: "fourchette",
+            romanian: "furculiță"
+          },
+          {
+            index: 9,
+            english: "cabbage",
+            german: "kohl",
+            french: "chou",
+            romanian: "varză"
+          },
+          {
+            index: 10,
+            english: "mouse",
+            german: "maus",
+            french: "souris",
+            romanian: "șoarece"
+          },
+          {
+            index: 11,
+            english: "table",
+            german: "tisch",
+            french: "table",
+            romanian: "masă"
+          },
+          {
+            index: 12,
+            english: "child",
+            german: "kind",
+            french: "enfant",
+            romanian: "copil"
+          },
+          {
+            index: 13,
+            english: "keyboard",
+            german: "tastatur",
+            french: "clavier",
+            romanian: "tastatură"
+          },
+          {
+            index: 14,
+            english: "mouth",
+            german: "mund",
+            french: "bouche",
+            romanian: "gură"
           }
         ],
         score: 0,
-        currentWindow: "start",
+        currentWindow: "start", // possible states: "start", "end" or a number from 0 to maxCounter
         currentLanguage: "french",
-        maxCounter: 5,
+        maxCounter: 4,
         answerStatus: "unanswered" // possible states: unanswered, correct, incorrect
     };
   }
@@ -254,19 +343,22 @@ class Application extends React.Component {
     }
   }
 
-  updateSettings(language, wordsNumber) {
-    this.setState( { maxCounter: wordsNumber,
+  updateSettings(language, wordsNumber, nextWindow) {
+    this.setState( { maxCounter: wordsNumber-1,
                      currentLanguage: language,
-                     currentWindow: 0} );
+                     currentWindow: nextWindow,
+                     score: 0
+                   } );
   }
 
   skipWord() {
     let inputLetters = document.querySelectorAll('.inputLetter');
 
     if (this.state.currentWindow < this.state.maxCounter) {
-      console.log("Skipping!");
       let temp = this.state.currentWindow + 1;  // maybe use something more elegant here?
       this.setState( { currentWindow: temp });
+    } else {
+      this.setState( { currentWindow: "end" });
     }
 
     for (let i=0; i<= inputLetters.length-1; i++) {
@@ -280,6 +372,7 @@ class Application extends React.Component {
     return (
       <Window score={this.state.score}
               currentWindow={this.state.currentWindow}
+              maxCounter={this.state.maxCounter}
               currentLanguage={this.state.currentLanguage}
               words={this.state.wordlist}
               skipWord={this.skipWord.bind(this)}
