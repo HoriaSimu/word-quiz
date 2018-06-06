@@ -2,23 +2,11 @@ body {
     background-color: #dddfd4;
 }
 
-/*@font-face {
-    font-family: Pelagiad;
-    src: url('misc/Pelagiad.ttf');
-}*/
-
 main {
     width: 60em;
     margin: 0 auto;
-
-    /*border: 1px dotted black;*/
 }
 
-/*#imageDiv,
-#progressDiv,
-#answerDiv {
-    border: 1px dotted blue;
-}*/
 
 #window {
     width: 50em;
@@ -29,7 +17,6 @@ main {
     flex-direction: row;
     flex-wrap: wrap;
 
-    /*border: 1px solid red;*/
     text-align: center;
     line-height: 2;
 
@@ -80,15 +67,19 @@ main {
 
 #buttonsDiv a {
     display: inline-block;
-    /*border: 1px dotted green;*/
     margin-right: 1em;
 
     font-family: Pelagiad, Georgia, serif;
-    font-size: 1.65em;
+    font-size: 1.5em;
     text-align: center;
 
     color: #dddfd4;
     text-decoration: none;
+    cursor: hand;
+}
+
+#buttonsDiv a:hover {
+    color: #b7c97b;
 }
 
 
@@ -121,8 +112,49 @@ main {
   width: 100%;
 }
 
+#startScreen {
+  font-family: Pelagiad, Georgia, serif;
+  font-size: 1em;
+  text-align: center;
+}
+
+p {
+  font-size: 1.2em;
+}
+
+.clearfix:after {
+   border: 1px dotted black;
+   content: ".";
+   visibility: hidden;
+   display: block;
+   height: 0;
+   clear: both;
+}
+
+#languageDiv {
+  width: 45%;
+  float: left;
+  margin-top: 1em;
+  margin-left: 2em;
+}
+
+#languageDiv label {
+  display: block;
+}
+
+#wordsNumberDiv {
+  width: 45%;
+  float: left;
+  margin-top: 1em;
+}
+
+#wordsNumberDiv label {
+  display: block;
+}
+
+
 .letter {
-    font-family: Pelagiad, Georgia, serif;
+    font-family: Georgia, serif;
     font-size: 1.6em;
 }
 
@@ -159,7 +191,7 @@ main {
     display: block;
     margin-bottom: 1em;
 
-    font-family: Pelagiad, Georgia, serif;
+    font-family: Georgia, serif;
     font-size: 2em;
 }
 
@@ -169,7 +201,7 @@ main {
     margin-right:auto;
     margin-left: 1em;
 
-    font-family: Pelagiad, Georgia, serif;
+    font-family: Georgia, serif;
     font-size: 1.75em;
 
     color: #dddfd4;
@@ -184,7 +216,7 @@ main {
 }
 
 #assessmentScore {
-    font-family: Pelagiad, Georgia, serif;
+    font-family: Georgia, serif;
     font-size: 2em;
 }
 

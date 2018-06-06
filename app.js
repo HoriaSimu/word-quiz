@@ -102,8 +102,8 @@ class Footer extends React.Component {
       <div id="buttonsDiv">
         {this.props.answerStatus === "correct" && <label id="messageCorrect">Correct!</label>}
         {this.props.answerStatus === "incorrect" && <label id="messageIncorrect">Wrong!</label>}
-        {this.props.answerStatus !== "correct" && <a id="checkAnswerButton" onClick={this.checkAnswer.bind(this)}>Check answer</a>}
-        <a id="skipQuestionButton" onClick={this.props.skipWord}>
+        {this.props.answerStatus !== "correct" && <a href="#" onClick={this.checkAnswer.bind(this)}>Check answer</a>}
+        <a href="#" onClick={this.props.skipWord}>
           {this.props.answerStatus !== "correct" && "Skip word"}
           {this.props.answerStatus === "correct" && this.props.currentWindow !== this.props.maxCounter && "Next word"}
           {this.props.answerStatus === "correct" && this.props.currentWindow === this.props.maxCounter && "See results"}
@@ -133,15 +133,15 @@ class StartScreen extends React.Component {
   render() {
     return (
       <div id="startScreen">
-        <form>
-          <label>{"Welcome to the word quiz. Before we start, please select your options below."}</label>
-          <div>
+        <form className="clearfix">
+          <p>{"Welcome to the word quiz. Before we start, please select your options below."}</p>
+          <div id="languageDiv">
             <label>{"The language you want to test:"}</label>
             <label><input type="radio" name="language" value="english" />English</label>
             <label><input type="radio" name="language" value="german" />German</label>
             <label><input type="radio" name="language" value="french" />French</label>
           </div>
-          <div>
+          <div id="wordsNumberDiv">
             <label>{"How many words you want to test:"}</label>
             <select name="wordsNumber" >
               <option value="5" >{"5"}</option>
@@ -152,7 +152,7 @@ class StartScreen extends React.Component {
         </form>
 
         <div id="buttonsDiv">
-          <a onClick={this.submitSettings.bind(this)}>{"Start"}</a>
+          <a href="#" onClick={this.submitSettings.bind(this)}>{"Start"}</a>
         </div>
       </div>
     );
@@ -169,7 +169,7 @@ class EndScreen extends React.Component {
       <div id="endScreen">
         <p>Congratulations, your score is {this.props.score}.</p>
         <div id="buttonsDiv">
-          <a onClick={this.restart.bind(this)}>{"Restart quiz"}</a>
+          <a href="#" onClick={this.restart.bind(this)}>{"Restart quiz"}</a>
         </div>
       </div>
     );
