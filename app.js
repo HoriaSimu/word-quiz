@@ -385,23 +385,3 @@ class Application extends React.Component {
 };
 
 ReactDOM.render(<Application />, document.getElementsByTagName("main")[0]);
-
-
-
-/*  Example of component class w/ initial state
-
-export default class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            text: 'Hello World'
-        };
-    }
-    render() {
-        return (
-            <div>
-                {this.state.text}
-            </div>
-        );
-    }
-}*/

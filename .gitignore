@@ -1,2 +1,5 @@
 # Dependency directories
 node_modules/
+
+# Folder used for editing pics
+img_edit/
