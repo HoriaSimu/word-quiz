@@ -37,7 +37,7 @@ class Header extends React.Component {
 
 class Image extends React.Component {
   render() {
-    let path = "url('img/" + this.props.imageID + ".png')";
+    let path = "url('img/" + this.props.imageID + ".jpg')";
 
     return (
       <div id="imageDiv" style={{display: "inline-block",
