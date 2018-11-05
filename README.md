@@ -14,12 +14,14 @@ The app is more or less finished, but there's certainly room for improvement.
 - [x] Replace images with smaller size versions
 - [ ] Randomize word list upon each restart
 - [ ] Add a more descriptive score display
-- [ ] Add a function to move the cursor automatically to the next letter fields when typing
+- [x] Add a function to move the cursor automatically to the next letter fields when typing
 - [ ] Rework the stylesheet
 - [ ] Add animations
 
 
 ## Credits
+
+For automatically moving the focus between input fields, I used the nice solution proposed by Joseph Lennox [here](https://stackoverflow.com/questions/15595652/focus-next-input-once-reaching-maxlength-value).
 
 Images used under CC0 license from [Pexels](www.pexels.com).
 

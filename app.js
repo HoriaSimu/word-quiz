@@ -50,9 +50,39 @@ class Image extends React.Component {
 class Word extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.state = {    };
+    this.automaticSwitch = this.automaticSwitch.bind(this);
+  }
 
-    };
+  automaticSwitch(e) {
+    e.preventDefault();
+    var target = e.srcElement || e.target;
+    var maxLength = parseInt(target.attributes["maxlength"].value, 10);
+    var myLength = target.value.length;
+    if (myLength >= maxLength) {
+      var next = target;
+      while (next = next.nextElementSibling) {
+                if (next == null) {
+                    break;
+                }
+                if (next.tagName.toLowerCase() === "input") {
+                    next.focus();
+                    break;
+                }
+            }
+        }
+        // Move to previous field if empty (user pressed backspace)
+        else if (myLength === 0) {
+            var previous = target;
+            while (previous = previous.previousElementSibling) {
+                if (previous == null)
+                    break;
+                if (previous.tagName.toLowerCase() === "input") {
+                    previous.focus();
+                    break;
+                }
+            }
+        }
   }
 
   render() {
@@ -60,14 +90,14 @@ class Word extends React.Component {
     let arrayLength = currentWordArray.length;
 
     return (
-      <div id="answerDiv">
+      <div id="answerDiv" onKeyUp={this.automaticSwitch}>
         {currentWordArray.map(function(item, i) {
           if (i===0) {
             return <label className="letter" key={i}>{currentWordArray[i]}</label>
           } else if (i === arrayLength-1) {
             return <label className="letter" key={i}>{currentWordArray[i]}</label>   // you can shorten this
           } else {
-            return <input className="inputLetter" maxlength={1} key={i} />
+            return <input className="inputLetter" maxlength={1} key={i}/>
           }
         })}
       </div>
