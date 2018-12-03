@@ -17,6 +17,7 @@ The app is more or less finished, but there's certainly room for improvement.
 - [x] Add a function to move the cursor automatically to the next letter fields when typing
 - [ ] Rework the stylesheet
 - [ ] Add animations
+- [ ] Refactor code - make it more modular (moving components to separate files and so on)
 
 
 ## Credits
