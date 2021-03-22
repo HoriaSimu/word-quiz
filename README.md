@@ -3,7 +3,7 @@ This is a small homework project done to learn working with react.js.
 
 It is a single page app that tests the user's knowledge of foreign words, in a similar manner to duolingo's word memorizing cards. Upon starting the app, the user can choose between 3 languages and set up the length of the test (5-15 words). The app will display one picture at a time and ask for the user's input. After testing the chosen number of words, it will display the score.
 
-You can see it in action on GitHub Pages: https://gherazaurul.github.io/word-quiz/
+You can see it in action on GitHub Pages: https://horiasimu.github.io/word-quiz/
 
 It has not been thoroughly tested on all browsers, but it works fine on recent versions of Firefox.
 
